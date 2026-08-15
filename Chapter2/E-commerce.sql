@@ -1,0 +1,29 @@
+CREATE DATABASE ecommerce_db;
+USE ecommerce_db;
+
+CREATE TABLE users(
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+fullname VARCHAR(100) NOT NULL,
+username VARCHAR(100) NOT NULL,
+email VARCHAR(100) NOT NULL UNIQUE,
+phonenumber VARCHAR(15) NOT NULL 
+);
+
+CREATE TABLE product (
+ id SERIAL PRIMARY KEY,   
+ name VARCHAR(100),    
+ description TEXT,
+ price DECIMAL(10,2),
+ quantity INT ,
+ category VARCHAR(100)
+ );
+ 
+ CREATE TABLE orders(
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ userid BIGINT NOT NULL,
+ order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ status VARCHAR(20) DEFAULT 'PENDING',
+ 
+ FOREIGN KEY (userid) REFERENCES users(id) 
+ );
+ 
