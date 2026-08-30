@@ -57,6 +57,40 @@ group by LastName ,FirstName;
 
 -- L Count the number of customers having each combination of LastName and FirstName.
 SELECT concat(LastName , FirstName)
+FROM customer;
+
+-- M Show the LastName, FirstName, and Phone of all customers who have had an order  with TotalAmount greater than $100.00. Use a subquery. Present the results sorted by LastName in ascending order and then FirstName in descending order.
+SELECT LastName, FirstName, Phone
 FROM customer
+WHERE CustomerId IN (
+    SELECT CustomerId
+    FROM invoice
+    WHERE TotalAmount > 100
+)
+ORDER BY LastName ASC, FirstName DESC;
 
+-- Show the LastName, FirstName, and Phone of all customers who have had an order with TotalAmount greater than $100.00. Use a join, but do not use JOIN ON syntax. Present results sorted by LastName in ascending order and then FirstName in descending order.
+SELECT LastName, FirstName, Phone
+FROM customer, invoice
+WHERE customer.CustomerId = invoice.CustomerId
+  AND TotalAmount > 100
+ORDER BY LastName ASC, FirstName DESC;
 
+-- O. Show the LastName, FirstName, and Phone of all customers who have had an order with TotalAmount greater than $100.00. Use a join using JOIN ON syntax. Present results sorted by LastName in ascending order and then FirstName in descending order.
+SELECT  LastName, FirstName, Phone
+FROM customer JOIN invoice ON customer.CustomerId = invoice.CustomerId
+WHERE TotalAmount > 100
+order by LastName ASC , FirstName DESC;
+
+-- P. Show the LastName, FirstName, and Phone of all customers who have had an order with an Item named ‘Dress Shirt’. Use a subquery. Present results sorted by LastName in ascending order and then FirstName in descending order.
+SELECT  LastName, FirstName,  Phone
+FROM customer 
+WHERE  CustomerID IN ( SELECT CustomerID FROM invoice WHERE InvoiceNumber IN (
+        SELECT InvoiceNumber
+        FROM invoice_item
+        WHERE Item = 'Dress Shirt'
+    ))
+order by LastName ASC , FirstName DESC;
+
+-- Q. Show the LastName, FirstName, and Phone of all customers who have had an order with an Item named ‘Dress Shirt’. Use a join, but do not use JOIN ON
+SELECT LastName, FirstName, Phone
